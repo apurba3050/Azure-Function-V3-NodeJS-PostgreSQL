@@ -1,4 +1,4 @@
-module.exports = async function (context, request) {
+module.exports = async function (context, req) {
 
     const pg = require('pg');
 
@@ -10,15 +10,9 @@ module.exports = async function (context, request) {
         port: 5432,       
     };   
 
-     // get the query parameter from the URL
-    
-    //const customer_id = request.query.customer_id;
-    const city = request.query.city;
-    const country = request.query.country;       
-
     // Create query to execute against the database
-    const text = `SELECT company_name, contact_name, address, city, country FROM customers WHERE city =(${city}) and country = (${country})`;   
-    //console.log(customer_id)
+    const text = "INSERT INTO customers VALUES ('APUSA', 'Wolski  Zajazd', 'Apurba Saha', 'Owner', 'ul. Filtrowa 68', 'Warszawa', NULL, '01-012', 'USA', '(26) 642-7012', '(26) 642-7012');";
+
     const querySpec = {
         text: text,        
     }
@@ -40,9 +34,8 @@ module.exports = async function (context, request) {
 
         // Return the query resuls back to the caller as JSON
         context.res = {
-            status: 200,
-            isRaw: true,
-            body: result.rows,
+            status: 201,            
+            body: ('User added with customer_id:${}'),
             headers: {
                 'Content-Type': 'application/json'
             }
